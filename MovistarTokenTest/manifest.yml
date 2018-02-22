@@ -1,0 +1,9 @@
+﻿---
+applications:
+- name: movistartokentest
+  random-route: false
+  memory: 512M
+  buildpack: https://github.com/cloudfoundry/dotnet-core-buildpack/releases/download/v2.0.0/dotnet-core-buildpack-v2.0.0.zip
+  env:
+    DOTNET_CLI_TELEMETRY_OPTOUT: 1
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
