@@ -3,11 +3,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
-namespace MovistarTokenTest.Infrastructure
+namespace MovistarToken.Infrastructure
 {
     [DebuggerDisplay("{DisplayName} - {Value}")]
     public abstract class Enumeration<TEnumeration> : Enumeration<TEnumeration, int>
-        where TEnumeration : Enumeration<TEnumeration>
+         where TEnumeration : Enumeration<TEnumeration>
     {
         protected Enumeration(int value, string displayName)
             : base(value, displayName)
