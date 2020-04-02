@@ -14,6 +14,17 @@ namespace MovistarToken.Data
         public int IdToken { get; set; }
         public short? Intento { get; set; }
 
+        public int Telefono { get; set; }
+        public string DetalleEstado { get; set; }
+        public string IdTransaccion { get; set; }
+        public string TipoDoc { get; set; }
+        public string NumeroDoc { get; set; }
+
+        //añadidos ultimo
+        public string DNI { get; set; }
+        //public TimeS? FechaExpiracion { get; set; }
+
         public virtual Contexto NombreContextoNavigation { get; set; }
+        public virtual ICollection<DetalleToken> DetalleToken { get; set; }
     }
 }

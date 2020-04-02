@@ -17,6 +17,7 @@ namespace MovistarToken.Data
 
         public virtual DbSet<Contexto> Contexto { get; set; }
         public virtual DbSet<Token> Token { get; set; }
+        public virtual DbSet<DetalleToken> DetalleToken { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -72,11 +73,45 @@ Expirado");
 
                 entity.Property(e => e.FechaValidacion).HasColumnType("timestamp with time zone");
 
+                entity.Property(e => e.Telefono).ForNpgsqlHasComment("Telefono");
+                entity.Property(e => e.DetalleEstado).ForNpgsqlHasComment("DetalleEstado");
+                entity.Property(e => e.IdTransaccion).ForNpgsqlHasComment("IdTransaccion");
+                entity.Property(e => e.TipoDoc).ForNpgsqlHasComment("TipoDoc");
+                entity.Property(e => e.NumeroDoc).ForNpgsqlHasComment("NumeroDoc");
+
                 entity.HasOne(d => d.NombreContextoNavigation)
                     .WithMany(p => p.Token)
                     .HasForeignKey(d => d.NombreContexto)
                     .HasConstraintName("Token_NombreContexto_fkey");
             });
+
+
+            modelBuilder.Entity<DetalleToken>(entity =>
+            {
+                entity.HasKey(e => e.IdDetalleToken).HasName("DetalleToken_pkey");
+
+                entity.HasIndex(e => e.IdToken).HasName("fki_DetalleToken_Token_fkey");
+
+                entity.Property(e => e.FechaEnvioNotificacion).HasColumnType("timestamp with time zone");
+
+                entity.Property(e => e.FechaRespuestaNotificacion).HasColumnType("timestamp with time zone");
+
+                entity.Property(e => e.CodigoNotificacion).ForNpgsqlHasComment(@"Codigo notificacion");
+
+                entity.Property(e => e.OrigenNotificacion).ForNpgsqlHasComment(@"Origen notificacion");
+
+                entity.Property(e => e.MensajeNotificacion).ForNpgsqlHasComment(@"Mensaje notificacion");
+
+                entity.Property(e => e.FechaRespuestaServicioToken).HasColumnType("timestamp with time zone");
+
+
+                entity.HasOne(d => d.IdTokenNavigation)
+                    .WithMany(p => p.DetalleToken)
+                    .HasForeignKey(d => d.IdToken).HasConstraintName("DetalleToken_IdToken_fkey");
+            });
+
+
+
         }
     }
 }

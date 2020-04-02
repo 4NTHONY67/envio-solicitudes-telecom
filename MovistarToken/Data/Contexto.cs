@@ -19,7 +19,10 @@ namespace MovistarToken.Data
         public short Reintentos { get; set; }
         public string NombreCampos { get; set; }
         public DateTime? FechaCrea { get; set; }
-
+        public bool EnvioNotificacion { get; set; }
+        public string TipoNotificacion { get; set; }
+        public string CodigoPlantillaSmS { get; set; }
+        public string CodigoPlantillaEmail { get; set; }
         public virtual ICollection<Token> Token { get; set; }
     }
 }
