@@ -25,7 +25,7 @@ namespace MovistarToken.Data
         public Token GetToken(ValidTokenRequest validTokenRequest) =>
                 _context.Token.FirstOrDefault(x => x.NombreContexto == validTokenRequest.Contexto
                                        && x.NroToken == validTokenRequest.Token
-                                       && x.Telefono == validTokenRequest.Telefono
+                                       && x.Telefono == Convert.ToInt32(validTokenRequest.Campos[3].Valor)
                                        && x.Estado == TokenType.Generado.Value);
 
         public void SaveToken(ITokenRequest tokenRequest, string tokenCode)
@@ -33,7 +33,8 @@ namespace MovistarToken.Data
             var camposDic = tokenRequest.Campos.ToDictionary();
             var txtCampos = JsonConvert.SerializeObject(camposDic);
 
-            int telefono = tokenRequest.Telefono;
+            //int telefono = tokenRequest.Telefono;
+            int telefono = Convert.ToInt32(tokenRequest.Campos[3].Valor);
 
             string idTransaccion = tokenRequest.IdTransaccion;
             if (tokenRequest.IdTransaccion is null) { idTransaccion = ""; } 
@@ -49,11 +50,18 @@ namespace MovistarToken.Data
                 FechaGeneracion = DateTime.Now,
                 NombreContexto = tokenRequest.Contexto,
                 NroToken = tokenCode,
-                Telefono = tokenRequest.Telefono,
+                //Telefono = tokenRequest.Telefono,
+                Telefono = Convert.ToInt32(tokenRequest.Campos[3].Valor),
                 IdTransaccion = idTransaccion,
                 TipoDoc = tipoDoc,
                 NumeroDoc = numeroDoc
             };
+
+
+            //obtener contexto
+            Contexto contex = new Contexto();
+            contex = GetContexto(tokenRequest.Contexto);
+
 
             //Validar existencia de token 250320
             if (telefono>0) { 
@@ -103,7 +111,7 @@ namespace MovistarToken.Data
                     },
 
                     templateId = new EnvioSMSRequest.templateId_ {
-                        templateId = "AVM010"
+                        templateId = contex.CodigoPlantillaSmS
                     },
 
                     templateParameterList = new EnvioSMSRequest.templateParameterList_() {
