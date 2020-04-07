@@ -25,7 +25,7 @@ namespace MovistarToken.Data
         public Token GetToken(ValidTokenRequest validTokenRequest) =>
                 _context.Token.FirstOrDefault(x => x.NombreContexto == validTokenRequest.Contexto
                                        && x.NroToken == validTokenRequest.Token
-                                       && x.Telefono == Convert.ToInt32(validTokenRequest.Campos[3].Valor)
+                                       && x.Telefono == validTokenRequest.Telefono
                                        && x.Estado == TokenType.Generado.Value);
 
         public void SaveToken(ITokenRequest tokenRequest, string tokenCode)
@@ -34,14 +34,65 @@ namespace MovistarToken.Data
             var txtCampos = JsonConvert.SerializeObject(camposDic);
 
             //int telefono = tokenRequest.Telefono;
-            int telefono = Convert.ToInt32(tokenRequest.Campos[3].Valor);
+            //int telefono = Convert.ToInt32(tokenRequest.Campos[3].Valor);
+            int longitud = tokenRequest.Campos.Count();
+            int telefono = 0;
+            for (int i = 0; i < longitud; i++)
+            {
+                if (tokenRequest.Campos[i].Llave == "telefono")
+                {
+                    telefono = Convert.ToInt32(tokenRequest.Campos[i].Valor);
+                }
 
-            string idTransaccion = tokenRequest.IdTransaccion;
-            if (tokenRequest.IdTransaccion is null) { idTransaccion = ""; } 
-            string tipoDoc = tokenRequest.TipoDoc;
-            if (tokenRequest.TipoDoc is null) { tipoDoc = ""; }
-            string numeroDoc = tokenRequest.NumeroDoc;
-            if (tokenRequest.NumeroDoc is null) { numeroDoc = ""; }
+            }
+
+            string idTransaccion = "";
+            for (int j = 0; j < longitud; j++)
+            {
+                if (tokenRequest.Campos[j].Llave == "idTransaction")
+                {
+                    idTransaccion = Convert.ToString(tokenRequest.Campos[j].Valor);
+                }
+
+            }
+
+            string tipoDoc = "";
+            for (int k = 0; k < longitud; k++)
+            {
+                if (tokenRequest.Campos[k].Llave == "tipoDoc")
+                {
+                    tipoDoc = Convert.ToString(tokenRequest.Campos[k].Valor);
+                }
+
+            }
+
+            string numeroDoc = "";
+            for (int x = 0; x < longitud; x++)
+            {
+                if (tokenRequest.Campos[x].Llave == "numeroDoc")
+                {
+                    numeroDoc = Convert.ToString(tokenRequest.Campos[x].Valor);
+                }
+
+            }
+
+            string dni = "";
+            for (int y = 0; y < longitud; y++)
+            {
+                if (tokenRequest.Campos[y].Llave == "dni")
+                {
+                    dni = Convert.ToString(tokenRequest.Campos[y].Valor);
+                }
+
+            }
+
+
+            /* string idTransaccion = tokenRequest.IdTransaccion;
+             if (tokenRequest.IdTransaccion is null) { idTransaccion = ""; } 
+             string tipoDoc = tokenRequest.TipoDoc;
+             if (tokenRequest.TipoDoc is null) { tipoDoc = ""; }
+             string numeroDoc = tokenRequest.NumeroDoc;
+             if (tokenRequest.NumeroDoc is null) { numeroDoc = ""; }*/
 
             var token = new Token
             {
@@ -51,10 +102,12 @@ namespace MovistarToken.Data
                 NombreContexto = tokenRequest.Contexto,
                 NroToken = tokenCode,
                 //Telefono = tokenRequest.Telefono,
-                Telefono = Convert.ToInt32(tokenRequest.Campos[3].Valor),
+                //Telefono = Convert.ToInt32(tokenRequest.Campos[3].Valor),
+                Telefono = telefono,
                 IdTransaccion = idTransaccion,
                 TipoDoc = tipoDoc,
-                NumeroDoc = numeroDoc
+                NumeroDoc = numeroDoc,
+                DNI = dni
             };
 
 

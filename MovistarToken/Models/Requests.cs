@@ -14,7 +14,7 @@ namespace MovistarToken.Models
     {
        public string Contexto { get; set; }
        public List<TokenField> Campos { get; set; }
-       //public int Telefono { get; set; }
+       public int Telefono { get; set; }
        public string IdTransaccion { get; set; }
        public string TipoDoc { get; set; }
        public string NumeroDoc { get; set; }
@@ -26,7 +26,7 @@ namespace MovistarToken.Models
         public string Contexto { get; set; }
         public List<TokenField> Campos { get; set; }
         public string Token { get; set; }
-        //public int Telefono { get; set; }
+        public int Telefono { get; set; }
         public string IdTransaccion { get; set; }
         public string TipoDoc { get; set; }
         public string NumeroDoc { get; set; }
@@ -38,7 +38,7 @@ namespace MovistarToken.Models
     {
        string Contexto { get; set; }
        List<TokenField> Campos { get; set; }
-       //int Telefono { get; set; }
+       int Telefono { get; set; }
        string IdTransaccion { get; set; }
        string TipoDoc { get; set; }
        string NumeroDoc { get; set; }

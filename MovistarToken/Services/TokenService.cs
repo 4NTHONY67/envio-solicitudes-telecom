@@ -38,6 +38,19 @@ namespace MovistarToken.Services
             errorMessage = string.Empty;
             var contexto = _tokenRepository.GetContexto(tokenRequest.Contexto);
             if (!ValidateTokenRequest(tokenRequest, contexto, out errorMessage)) { return false; }
+
+
+            int longitud = tokenRequest.Campos.Count();
+            int telefono = 0;
+            for (int i = 0; i < longitud; i++)
+            {
+                if (tokenRequest.Campos[i].Llave == "telefono")
+                {
+                    telefono = Convert.ToInt32(tokenRequest.Campos[i].Valor);
+                }
+
+            }
+            tokenRequest.Telefono = telefono;
             var token = _tokenRepository.GetToken(tokenRequest as ValidTokenRequest);
             if (!ValidateTokenContexto(token, tokenRequest as ValidTokenRequest, contexto, out errorMessage)) { return false; }
             return string.IsNullOrWhiteSpace(errorMessage);
