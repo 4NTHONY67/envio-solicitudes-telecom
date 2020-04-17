@@ -93,12 +93,12 @@ namespace MovistarToken.Data
              if (tokenRequest.TipoDoc is null) { tipoDoc = ""; }
              string numeroDoc = tokenRequest.NumeroDoc;
              if (tokenRequest.NumeroDoc is null) { numeroDoc = ""; }*/
-
+            var current = DateTime.Now;
             var token = new Token
             {
                 Campos = txtCampos,
                 Estado = TokenType.Generado.Value,
-                FechaGeneracion = DateTime.Now,
+                FechaGeneracion = current,
                 NombreContexto = tokenRequest.Contexto,
                 NroToken = tokenCode,
                 //Telefono = tokenRequest.Telefono,
@@ -115,6 +115,8 @@ namespace MovistarToken.Data
             Contexto contex = new Contexto();
             contex = GetContexto(tokenRequest.Contexto);
 
+            //Asignar Fecha de Expiracion
+            token.FechaExpiracion = current.AddSeconds(contex.Vigencia);
 
             //Validar existencia de token 250320
             if (telefono>0) { 
@@ -136,7 +138,8 @@ namespace MovistarToken.Data
             //gatilla servicios SMS
             if (GatillaServiciosSMS(token))
             {
-                //preparar mensaje envio servicio
+                #region "preparar mensaje envio servicio"
+                
                 EnvioSMSRequest request = new EnvioSMSRequest();
                 request.TefHeaderReq.userLogin = "USRGESTOKEN";
                 request.TefHeaderReq.serviceChannel = "MS";
@@ -182,55 +185,51 @@ namespace MovistarToken.Data
                 //request.NotifyAllSubscribersRequestData.notifyDataList[0].templateId.templateId = "AVM010";
                 //request.NotifyAllSubscribersRequestData.notifyDataList[0].templateParameterList[0].key = "TOKEN";
                 //request.NotifyAllSubscribersRequestData.notifyDataList[0].templateParameterList[0].value = token.NroToken;
-
+                #endregion
 
                 //enviar token a servicio SMS
                 EnvioSMSResponse rpta = EnviarTokenServicioSMS(request).Result;
-
+                var dateResponService = DateTime.Now;
                 DetalleToken detalletoken;
 
                 if (rpta.notifyAllSubscribersResponseData.status.code == 1)
                 {
-
                     detalletoken = new DetalleToken
                     {
                         IdToken = tokenId,
-                        FechaEnvioNotificacion = DateTime.Now,
-                        FechaRespuestaNotificacion = DateTime.Now,
-                        CodigoNotificacion = "",
+                        FechaEnvioNotificacion = dateResponService,
+                        FechaRespuestaNotificacion = dateResponService,
+                        CodigoNotificacion = "1",
                         MensajeNotificacion = "Se envio correctamente a servicio SMS",
-                        OrigenNotificacion = "",
-                        FechaRespuestaServicioToken = DateTime.Now
-
-
-
-                    };
+                        OrigenNotificacion = "GN",
+                        FechaRespuestaServicioToken = dateResponService
+                    };                    
                 }
                 else
                 {
                     detalletoken = new DetalleToken
                     {
                         IdToken = tokenId,
-                        FechaEnvioNotificacion = DateTime.Now,
-                        FechaRespuestaNotificacion = DateTime.Now,
-                        CodigoNotificacion = "",
-                        MensajeNotificacion = "No se pudo enviar",
-                        OrigenNotificacion = "",
-                        FechaRespuestaServicioToken = DateTime.Now
+                        FechaEnvioNotificacion = dateResponService,
+                        FechaRespuestaNotificacion = dateResponService,
+                        CodigoNotificacion = "2",
+                        MensajeNotificacion = "Servicio de SMS no disponible",
+                        OrigenNotificacion = "GN",
+                        FechaRespuestaServicioToken = dateResponService
                     };
 
+                    token.Estado = "NoUsado";
+                    token.DetalleEstado = "Servicio de SMS no disponible";
                 }
+                //Asignar Fecha de Expiracion
+                token.FechaExpiracion = dateResponService.AddSeconds(contex.Vigencia);
+                
+
+                _context.Token.Update(token);
                 _context.DetalleToken.Add(detalletoken);
                 _context.SaveChanges();
 
             }
-
-
-
-
-
-
-
 
         }
 

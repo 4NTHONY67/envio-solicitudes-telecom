@@ -155,7 +155,8 @@ namespace MovistarToken.Services
             }
             bool ValidateTime()
             {
-                if (DateTime.Now.Subtract(token.FechaGeneracion.Value).TotalSeconds > contexto.Vigencia)
+                if(DateTime.Now > token.FechaExpiracion.Value)
+                //if (DateTime.Now.Subtract(token.FechaGeneracion.Value).TotalSeconds > contexto.Vigencia)
                 {
                     _tokenRepository.UpdateToken(token, TokenType.Expirado);
                     return false;

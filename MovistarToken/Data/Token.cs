@@ -22,7 +22,9 @@ namespace MovistarToken.Data
 
         //añadidos ultimo
         public string DNI { get; set; }
-        //public TimeS? FechaExpiracion { get; set; }
+        
+        //FechaGeneracion + Contexto.Vigencia
+        public DateTime? FechaExpiracion { get; set; }
 
         public virtual Contexto NombreContextoNavigation { get; set; }
         public virtual ICollection<DetalleToken> DetalleToken { get; set; }

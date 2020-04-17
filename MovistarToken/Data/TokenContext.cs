@@ -65,13 +65,11 @@ Maximo 6");
                 entity.HasIndex(e => e.NombreContexto)
                     .HasName("fki_Token_Contexto_fkey");
 
-                entity.Property(e => e.Estado).ForNpgsqlHasComment(@"Generado
-Validado
-Expirado");
+                entity.Property(e => e.Estado).ForNpgsqlHasComment(@"GeneradoValidadoExpirado");
 
                 entity.Property(e => e.FechaGeneracion).HasColumnType("timestamp with time zone");
-
                 entity.Property(e => e.FechaValidacion).HasColumnType("timestamp with time zone");
+                entity.Property(e => e.FechaExpiracion).HasColumnType("timestamp with time zone");
 
                 entity.Property(e => e.Telefono).ForNpgsqlHasComment("Telefono");
                 entity.Property(e => e.DetalleEstado).ForNpgsqlHasComment("DetalleEstado");
