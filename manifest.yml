@@ -1,10 +1,10 @@
-﻿---
+﻿﻿---
 applications:
-- name: TOKEN-WS
+- name: TOKEN-WS-DEV
   random-route: false
   memory: 512M
   routes:
-  - route: TEFAPPTOKEN.mybluemix.net
+  - route: movistartokendev.mybluemix.net
   env:
     DOTNET_CLI_TELEMETRY_OPTOUT: 1
     DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
