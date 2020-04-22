@@ -1,6 +1,6 @@
 ﻿---
 applications:
-- name: TOKEN-WS
+- name: TOKEN-WS-DEV
   random-route: false
   memory: 512M
   routes:
