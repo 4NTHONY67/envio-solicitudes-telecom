@@ -13,7 +13,7 @@ namespace MovistarToken.Data
         public string Nombre { get; set; }
         public short NroCampos { get; set; }
         public bool Estado { get; set; }
-        public short Vigencia { get; set; }
+        public int Vigencia { get; set; }
         public short NroDigitos { get; set; }
         public bool EsAlfanumerico { get; set; }
         public short Reintentos { get; set; }
