@@ -608,5 +608,59 @@ namespace MovistarToken.Data
 
         }
 
+        public void IniciarDepuracion()
+        {
+
+           /* var query = (from x in _context.Token
+                         where x.IdToken == 494
+                         select x).ToList();
+
+            foreach (var item in query)
+            {
+                item.Estado = "Validado";
+
+
+                _context.Update(item);
+                _context.SaveChanges();
+
+            }*/
+
+
+            /* var c = _context.TokenDepuracion;
+             var query = (from x in _context.TokenDepuracion
+                          where x.Estado == "activado"
+                          select x).ToList();
+
+
+
+             var FechaHoy = DateTime.Now;
+
+             foreach (var item in query)
+            {                        */
+            /*  if (item.FechaEjecucion == FechaHoy) {
+
+
+
+                  _context.Update(item);
+                  _context.SaveChanges();
+              }*/
+
+            /*  if (item.Estado == "activado")
+              {
+                  item.Estado = "desactivado";
+              }
+              else if (item.Estado == "desactivado") 
+              {
+                  item.Estado = "activado";
+              }
+
+              _context.Update(item);
+              _context.SaveChanges();
+
+          }*/
+
+
+        }
+
     }
 }

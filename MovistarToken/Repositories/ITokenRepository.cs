@@ -17,5 +17,6 @@ namespace MovistarToken.Repositories
         int UpdateIntentoToken(Token token, TokenType tokenType, int maxIntentos);
         bool AnyTokenCode(string nombreContexto, string tokenCode);
         void EnviarEventNotification(Token token);
+        void IniciarDepuracion();
     }
 }
