@@ -47,5 +47,30 @@ namespace MovistarToken.Models
         }
     }
 
+    public class EnvioEventNotificationResponse
+    {
+        public string code { get; set; }
+        public string description { get; set; }
+        /*public TefHeaderRes_ TefHeaderRes { get; set; }
+        public notifyAllSubscribersResponseData_ notifyAllSubscribersResponseData { get; set; }
+
+        public class TefHeaderRes_
+        {
+            public string idMessage { get; set; }
+            public string serviceName { get; set; }
+            public string responseDateTime { get; set; }
+
+        }
+        public class notifyAllSubscribersResponseData_
+        {
+            public status_ status { get; set; }
+
+        }
+        public class status_
+        {
+            public int code { get; set; }
+            public string description { get; set; }
+        }*/
+    }
 
 }

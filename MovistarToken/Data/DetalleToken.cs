@@ -15,6 +15,12 @@ namespace MovistarToken.Data
         public string OrigenNotificacion { get; set; }
         public string MensajeNotificacion { get; set; }
         public DateTime? FechaRespuestaServicioToken { get; set; }
+        public string CodigoRespuestaEvent { get; set; }
+        public string MensajeRespuestaEvent { get; set; }
+        public int NumeroReintentosEvent { get; set; }
+        public DateTime? FechaEnvioEvent { get; set; }
+        public string OrigenEnvioEvent { get; set; }
+        public bool EstadoEvent { get; set; }
         public virtual Token IdTokenNavigation { get; set; }
 
     }

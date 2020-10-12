@@ -23,6 +23,8 @@ namespace MovistarToken.Data
         public string TipoNotificacion { get; set; }
         public string CodigoPlantillaSmS { get; set; }
         public string CodigoPlantillaEmail { get; set; }
+        public string App { get; set; }
+        public bool EnvioEvent { get; set; }
         public virtual ICollection<Token> Token { get; set; }
     }
 }

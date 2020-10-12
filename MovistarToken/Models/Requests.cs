@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -146,5 +147,92 @@ namespace MovistarToken.Models
 
     }
 
+
+    public class EnvioEventNotificationRequest
+    {
+
+        public string eventType { get; set; }
+        public string eventTime { get; set; }
+        public string eventId { get; set; }
+        public string eventSource { get; set; }
+        public List<relatedEntity_> relatedEntity { get; set; }
+
+        [JsonProperty("event")]
+        public event_ Event { get; set; }
+
+        public EnvioEventNotificationRequest()
+        {
+            relatedEntity = new List<relatedEntity_>();
+            Event = new event_();
+
+        }
+
+
+        public class relatedEntity_
+        {
+
+            public string entityType { get; set; }
+            public string id { get; set; }
+            public string href { get; set; }
+
+        }
+
+        public class event_
+        {
+            [JsonProperty("@type")]
+            public string @type { get; set; }
+
+            [JsonProperty("@schemaLocation")]
+            public List<schemaLocation_> @schemaLocation { get; set; }
+
+            public event_()
+            {
+                this.@schemaLocation = new List<schemaLocation_>();
+            }
+
+        }
+
+        public class schemaLocation_
+        {
+
+            public dinamicNotification_ dinamicNotification { get; set; }
+
+            public schemaLocation_()
+            {
+                dinamicNotification = new dinamicNotification_();
+            }
+
+        }
+
+        public class dinamicNotification_
+        {
+
+            public List<dinamicEntity_> dinamicEntity { get; set; }
+
+        }
+
+        public class dinamicEntity_
+        {
+
+            public string entityType { get; set; }
+            public List<additionalData_> additionalData { get; set; }
+        }
+
+        public class additionalData_
+        {
+
+            public KeyValueType_ KeyValueType { get; set; }
+
+        }
+
+        public class KeyValueType_
+        {
+
+            public string Key { get; set; }
+            public string Value { get; set; }
+
+        }
+
+    }
 
 }

@@ -18,6 +18,7 @@ namespace MovistarToken.Data
         public virtual DbSet<Contexto> Contexto { get; set; }
         public virtual DbSet<Token> Token { get; set; }
         public virtual DbSet<DetalleToken> DetalleToken { get; set; }
+        public virtual DbSet<TokenAuth> TokenAuth { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -106,6 +107,16 @@ Maximo 6");
                 entity.HasOne(d => d.IdTokenNavigation)
                     .WithMany(p => p.DetalleToken)
                     .HasForeignKey(d => d.IdToken).HasConstraintName("DetalleToken_IdToken_fkey");
+            });
+
+            modelBuilder.Entity<TokenAuth>(entity =>
+            {
+                entity.HasKey(e => e.IdTokenAuth).HasName("TokenAuth_pkey");
+
+                entity.Property(e => e.AccessToken).ForNpgsqlHasComment(@"Access Token");
+
+                entity.Property(e => e.RefreshToken).ForNpgsqlHasComment(@"Refresh Token");
+
             });
 
 
