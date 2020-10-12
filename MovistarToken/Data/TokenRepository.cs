@@ -594,7 +594,7 @@ namespace MovistarToken.Data
                 _accessToken = item.AccessToken;
                 
             }
-            //var _accessToken = "AAIkODhkMTc2OWItNTIxZi00OWQ5LWJmYzktMzVmMTVjMzM2Njk4wFH2HdUOJ8f5A1YSJyHYIgPsUL9DigSVZHl6E2r2FT6MmOL7yj2HzIBgA_9j08Czqb2HnDJU1VBFBHxasTqgnYl-0_6hlS1iSJ8WNnnL4PQ";
+            
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
             client.DefaultRequestHeaders.Add("X-IBM-Client-Id", "88d1769b-521f-49d9-bfc9-35f15c336698");
