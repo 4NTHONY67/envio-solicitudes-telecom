@@ -17,7 +17,7 @@ namespace MovistarToken.ScheduleTask
         }
 
 
-        protected override string Schedule => "*/5 * * * *"; // cada 1 minuto
+        protected override string Schedule => "*/4 * * * *"; // cada 1 minuto
 
         public override Task ProcessInScope(IServiceProvider scopeServiceProvider)
         {
@@ -44,15 +44,17 @@ namespace MovistarToken.ScheduleTask
                 {
                     var tokenDepurar = (from x in _context.Token
                                         where allowedStatus.Contains(x.Estado)
+                                        && x.FechaGeneracion != null
                                         && x.FechaGeneracion >= FechaInicio
                                         //&& x.FechaGeneracion >= item.FechaEjecucion
                                         //&& x.FechaGeneracion <= FechaFin
                                         //&& x.FechaGeneracion >= FechaInicio
-                                        // && x.NombreContexto == item.NombreContexto
+                                        && x.NombreContexto == item.NombreContexto
                                         select x).ToList();
 
                     foreach(var item2 in tokenDepurar) 
                     {
+                        
                         var tokenHistorico = new TokenHistorico
                         {
                             NombreContexto = item2.NombreContexto,
@@ -79,7 +81,7 @@ namespace MovistarToken.ScheduleTask
                         int ID = tokenHistorico.IdTokenHistorico;
 
                         var detalleTokenDelete = (from x in _context.DetalleToken
-                                     where x.IdToken == item2.IdToken
+                                     where  x.IdToken == item2.IdToken
                                      select x).ToList();
 
                         foreach (var item3 in detalleTokenDelete)
@@ -114,6 +116,8 @@ namespace MovistarToken.ScheduleTask
 
                         _context.Token.Remove(item2);
                         _context.SaveChanges();
+
+                        
                     }
                     
                 }
