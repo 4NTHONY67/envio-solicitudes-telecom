@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 
 namespace MovistarToken.Data
 {
-    public class DetalleToken
+    public class DetalleTokenHistorico
     {
-        public int IdDetalleToken { get; set; }
+        public int IdDetalleTokenHistorico { get; set; }
+        public int IdTokenHistorico { get; set; }
         public int IdToken { get; set; }
+        public int IdDetalleToken { get; set; }
         public DateTime? FechaEnvioNotificacion { get; set; }
         public DateTime? FechaRespuestaNotificacion { get; set; }
         public string CodigoNotificacion { get; set; }
@@ -22,7 +24,7 @@ namespace MovistarToken.Data
         public string OrigenEnvioEvent { get; set; }
         public bool EstadoEvent { get; set; }
         public string TokenValidado { get; set; }
-        public virtual Token IdTokenNavigation { get; set; }
-
+        public DateTime? FechaDepuracion { get; set; }
+        public virtual TokenHistorico IdTokenHistoricoNavigation { get; set; }
     }
 }

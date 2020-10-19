@@ -9,11 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using MovistarToken.Data;
 using MovistarToken.Repositories;
+using MovistarToken.ScheduleTask;
 using MovistarToken.Services;
 
 namespace MovistarToken
@@ -36,6 +38,8 @@ namespace MovistarToken
 
             services.AddScoped<ITokenRepository, TokenRepository>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddSingleton<IHostedService, DepurarToken>();
+            services.AddSingleton<IHostedService, ProcessOffline>();
 
             services.AddSwaggerGen(c =>
             {
@@ -44,7 +48,7 @@ namespace MovistarToken
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {

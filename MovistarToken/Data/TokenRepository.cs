@@ -544,6 +544,7 @@ namespace MovistarToken.Data
                     foreach (var item2 in query2) 
                     {
                         item2.EstadoEvent = true;
+                        item2.TokenValidado = token.NroToken;
                         _context.Update(item2);
                         _context.SaveChanges();
                     }
@@ -563,7 +564,10 @@ namespace MovistarToken.Data
                 dt.NumeroReintentosEvent = 1;
                 dt.FechaEnvioEvent = DateTime.Now;
                 dt.OrigenEnvioEvent = "online";
-                _context.Update(dt);
+                dt.EstadoEvent = true;
+                dt.TokenValidado = token.NroToken;
+                    //dt.EstadoEvent = "Enviado";
+                    _context.Update(dt);
                 _context.SaveChanges();
             }
     
