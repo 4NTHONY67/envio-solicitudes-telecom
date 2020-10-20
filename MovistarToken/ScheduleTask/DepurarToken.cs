@@ -17,7 +17,7 @@ namespace MovistarToken.ScheduleTask
         }
 
 
-        protected override string Schedule => "*/50 * * * *"; // cada 1 minuto
+        protected override string Schedule => "1 0 1 * *"; // a las 00:01:00 , el dia 1 de cada mes
 
         public override Task ProcessInScope(IServiceProvider scopeServiceProvider)
         {
@@ -31,7 +31,7 @@ namespace MovistarToken.ScheduleTask
 
             var Hoy = DateTime.Now;
             var FechaInicio = Hoy.AddMonths(-2);
-            var FechaFin = Hoy.AddDays(-20);
+            var FechaFin = Hoy.AddMinutes(-2);
 
             foreach (var item in query)
             {
@@ -47,7 +47,7 @@ namespace MovistarToken.ScheduleTask
                                         && x.FechaGeneracion != null
                                         && x.FechaGeneracion >= FechaInicio
                                         //&& x.FechaGeneracion >= item.FechaEjecucion
-                                        //&& x.FechaGeneracion <= FechaFin
+                                        && x.FechaGeneracion <= FechaFin
                                         //&& x.FechaGeneracion >= FechaInicio
                                         && x.NombreContexto == item.NombreContexto
                                         select x).ToList();
