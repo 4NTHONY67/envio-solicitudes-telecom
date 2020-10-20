@@ -23,7 +23,7 @@ namespace MovistarToken.ScheduleTask
         {
 
         }
-        protected override string Schedule => "*/50 * * * *"; // cada 1 minuto
+        protected override string Schedule => "*/30 * * * *"; // cada 1 minuto
 
         public override Task ProcessInScope(IServiceProvider scopeServiceProvider)
         {
@@ -38,7 +38,7 @@ namespace MovistarToken.ScheduleTask
             {                
                 var Hoy = DateTime.Now;
                 var FechaInicio = Hoy.AddDays(-1);
-                var FechaFin = Hoy.AddDays(-5);
+                var FechaFin = Hoy.AddDays(-8);
 
 
                 var query2 = (from x in _context.Token 

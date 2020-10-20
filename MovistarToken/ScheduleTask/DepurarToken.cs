@@ -17,7 +17,7 @@ namespace MovistarToken.ScheduleTask
         }
 
 
-        protected override string Schedule => "*/4 * * * *"; // cada 1 minuto
+        protected override string Schedule => "*/50 * * * *"; // cada 1 minuto
 
         public override Task ProcessInScope(IServiceProvider scopeServiceProvider)
         {
@@ -35,13 +35,13 @@ namespace MovistarToken.ScheduleTask
 
             foreach (var item in query)
             {
-                string anioDepuracion = Convert.ToDateTime(item.FechaEjecucion).ToString("yyyy");
+                /*string anioDepuracion = Convert.ToDateTime(item.FechaEjecucion).ToString("yyyy");
                 string mesDepuracion = Convert.ToDateTime(item.FechaEjecucion).ToString("MM");
                 string diaDepuracion = Convert.ToDateTime(item.FechaEjecucion).ToString("dd");
                 string diadia = Convert.ToDateTime(item.FechaEjecucion).ToString("dd");
 
                 if (anioDepuracion == DateTime.Now.ToString("yyyy") && mesDepuracion == DateTime.Now.ToString("MM") && diaDepuracion == DateTime.Now.ToString("dd"))
-                {
+                {*/
                     var tokenDepurar = (from x in _context.Token
                                         where allowedStatus.Contains(x.Estado)
                                         && x.FechaGeneracion != null
@@ -120,7 +120,7 @@ namespace MovistarToken.ScheduleTask
                         
                     }
                     
-                }
+                //}
 
             }
 
