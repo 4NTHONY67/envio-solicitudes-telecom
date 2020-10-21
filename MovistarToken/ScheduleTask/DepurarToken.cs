@@ -17,7 +17,7 @@ namespace MovistarToken.ScheduleTask
         }
 
 
-        protected override string Schedule => "1 0 1 * *";  // a las 00:01:00 , el dia 1 de cada mes
+        protected override string Schedule => "1 0 1 * *"; // a las 00:01:00 , el dia 1 de cada mes
 
         public override Task ProcessInScope(IServiceProvider scopeServiceProvider)
         {
@@ -29,12 +29,13 @@ namespace MovistarToken.ScheduleTask
 
             var allowedStatus = new[] { "Validado", "Expirado", "NoUsado","Excedido","No Usado" };
 
-            var Hoy = DateTime.Now;
-            var FechaInicio = Hoy.AddMonths(-2);
-            var FechaFin = Hoy.AddMinutes(-2);
-
             foreach (var item in query)
             {
+                var Hoy = DateTime.Now;
+                var FechaInicioD = Hoy.AddMonths(-item.PeriodoEjecucion);
+                var FechaInicio = FechaInicioD.AddHours(5);
+                var FechaFinD = Hoy.AddMinutes(-2);
+                var FechaFin = FechaFinD.AddHours(5);
                 /*string anioDepuracion = Convert.ToDateTime(item.FechaEjecucion).ToString("yyyy");
                 string mesDepuracion = Convert.ToDateTime(item.FechaEjecucion).ToString("MM");
                 string diaDepuracion = Convert.ToDateTime(item.FechaEjecucion).ToString("dd");
@@ -42,7 +43,7 @@ namespace MovistarToken.ScheduleTask
 
                 if (anioDepuracion == DateTime.Now.ToString("yyyy") && mesDepuracion == DateTime.Now.ToString("MM") && diaDepuracion == DateTime.Now.ToString("dd"))
                 {*/
-                    var tokenDepurar = (from x in _context.Token
+                var tokenDepurar = (from x in _context.Token
                                         where allowedStatus.Contains(x.Estado)
                                         && x.FechaGeneracion != null
                                         && x.FechaGeneracion >= FechaInicio

@@ -37,8 +37,10 @@ namespace MovistarToken.ScheduleTask
             foreach (var item in query)
             {                
                 var Hoy = DateTime.Now;
-                var FechaFin = Hoy.AddMinutes(-35);
-                var FechaInicio = Hoy.AddDays(-8);
+                var FechaFinD = Hoy.AddMinutes(-35);
+                var FechaFin = FechaFinD.AddHours(5);
+                var FechaInicioD = Hoy.AddDays(-item.PeriodoEjecucion);
+                var FechaInicio = FechaInicioD.AddHours(5);
 
 
                 var query2 = (from x in _context.Token 
