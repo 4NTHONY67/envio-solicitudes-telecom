@@ -505,7 +505,7 @@ namespace MovistarToken.Data
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
                                         Key = "fechaValidacionToken",
-                                        Value = token.FechaValidacion.ToString()
+                                        Value = DateTime.Now.ToString()
                                     }
                                 },
                                  new EnvioEventNotificationRequest.additionalData_

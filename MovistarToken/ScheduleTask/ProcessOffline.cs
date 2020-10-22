@@ -56,10 +56,20 @@ namespace MovistarToken.ScheduleTask
                 foreach (var item2 in query2)
                 {
                     int IdtokenBuscar = item2.IdToken;
+                    
+                    DateTime? fechaEnvioNotificacion = DateTime.Now ;
+
                     var detalletoken = (from x in _context.DetalleToken
                                         where x.IdToken == IdtokenBuscar
                                         select x).ToList();
 
+                    foreach (var detalle in detalletoken) {
+
+                        fechaEnvioNotificacion = detalle.FechaEnvioNotificacion;
+
+                    }
+
+                    //var fechaEnvioNotificacionToken = fechaEnvioNotificacion;
 
                     var _accessToken = "";
                     var tokenAuth = (from x in _context.TokenAuth
@@ -71,15 +81,30 @@ namespace MovistarToken.ScheduleTask
 
                     }
 
+
+                    var NumDoc = "";
+                    var TipoDoc = "";
+                    if (item2.NumeroDoc == "" || item2.TipoDoc == "")
+                    {
+                        TipoDoc = "DNI";
+                        NumDoc = item2.DNI;
+                    }
+                    else
+                    {
+                        NumDoc = item2.NumeroDoc;
+                        TipoDoc = item2.TipoDoc;
+                    }
+
                     EnvioEventNotificationRequest request = new EnvioEventNotificationRequest();
                     request.eventType = "dinamicNotification";
                     request.eventTime = "2020-07-14T02:22:56.979Z";
                     request.eventId = "-h020c2dbfq0pkqq2p1m";
                     request.eventSource = "GESTOKEN";
+                    //request.relatedEntity = new List<EnvioEventNotificationRequest.relatedEntity_>();
                     request.relatedEntity = new List<EnvioEventNotificationRequest.relatedEntity_> {
                     new EnvioEventNotificationRequest.relatedEntity_{ entityType = "string",
-                                                                         id = "string",
-                                                                         href ="string" }};
+                    id = "string",
+                    href ="string" }};
                     request.Event = new EnvioEventNotificationRequest.event_();
                     request.Event.@type = "dinamicNotification";
                     request.Event.@schemaLocation = new List<EnvioEventNotificationRequest.schemaLocation_>();
@@ -105,6 +130,29 @@ namespace MovistarToken.ScheduleTask
 
                         },
                         new EnvioEventNotificationRequest.dinamicEntity_{
+                            entityType = "Customer",
+                            additionalData = new List<EnvioEventNotificationRequest.additionalData_>
+                            {
+                                new EnvioEventNotificationRequest.additionalData_
+                                {
+                                    KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
+                                    {
+                                        Key = "nationalIDType",
+                                        Value = TipoDoc
+                                    }
+                                },
+                                new EnvioEventNotificationRequest.additionalData_
+                                {
+                                    KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
+                                    {
+                                        Key = "nationalID",
+                                        Value = NumDoc
+                                    }
+                                }
+                            }
+
+                        },
+                        new EnvioEventNotificationRequest.dinamicEntity_{
                             entityType = "Order",
                             additionalData = new List<EnvioEventNotificationRequest.additionalData_>
                             {
@@ -113,7 +161,7 @@ namespace MovistarToken.ScheduleTask
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
                                         Key = "OrderID",
-                                        Value = "12345676"
+                                        Value = Convert.ToString(item2.IdTransaccion)
                                     }
                                 }
                             }
@@ -131,67 +179,26 @@ namespace MovistarToken.ScheduleTask
                                         Value = "WRLS"
                                     }
                                 },
-                                 new EnvioEventNotificationRequest.additionalData_
+                                new EnvioEventNotificationRequest.additionalData_
                                 {
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
-                                        Key = "App",
-                                        Value = "GESTOKEN"
-                                    }
-                                },
-                                 new EnvioEventNotificationRequest.additionalData_
-                                {
-                                    KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
-                                    {
-                                        Key = "Telefono",
+                                        Key = "publicId",
                                         Value = Convert.ToString(item2.Telefono)
                                     }
-                                },
+                                }
+                            }
+
+                        },
+                        new EnvioEventNotificationRequest.dinamicEntity_{
+                            entityType = "NotificacionSMS",
+                            additionalData = new List<EnvioEventNotificationRequest.additionalData_>
+                            {
                                  new EnvioEventNotificationRequest.additionalData_
                                 {
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
-                                        Key = "OrdenId",
-                                        Value = ""
-                                    }
-                                },
-                                 new EnvioEventNotificationRequest.additionalData_
-                                {
-                                    KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
-                                    {
-                                        Key = "TipoDoc",
-                                        Value = item2.TipoDoc
-                                    }
-                                },
-                                 new EnvioEventNotificationRequest.additionalData_
-                                {
-                                    KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
-                                    {
-                                        Key = "NumeroDoc",
-                                        Value = item2.NumeroDoc
-                                    }
-                                },
-                                 new EnvioEventNotificationRequest.additionalData_
-                                {
-                                    KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
-                                    {
-                                        Key = "IdTransaccion",
-                                        Value = item2.IdTransaccion
-                                    }
-                                },
-                                 new EnvioEventNotificationRequest.additionalData_
-                                {
-                                    KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
-                                    {
-                                        Key = "NombreContexto",
-                                        Value = item2.NombreContexto
-                                    }
-                                },
-                                 new EnvioEventNotificationRequest.additionalData_
-                                {
-                                    KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
-                                    {
-                                        Key = "TokenIngresado",
+                                        Key = "Token",
                                         Value = item2.NroToken
                                     }
                                 },
@@ -199,7 +206,7 @@ namespace MovistarToken.ScheduleTask
                                 {
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
-                                        Key = "FechaGeneracion",
+                                        Key = "fechaGeneracionToken",
                                         Value = item2.FechaGeneracion.ToString()
                                     }
                                 },
@@ -207,15 +214,15 @@ namespace MovistarToken.ScheduleTask
                                 {
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
-                                        Key = "FechaEnvioNotificacion",
-                                        Value = DateTime.Now.ToString()
+                                        Key = "fechaEnvioToken",
+                                        Value = fechaEnvioNotificacion.ToString()
                                     }
                                 },
                                  new EnvioEventNotificationRequest.additionalData_
                                 {
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
-                                        Key = "FechaValidacion",
+                                        Key = "fechaValidacionToken",
                                         Value = item2.FechaValidacion.ToString()
                                     }
                                 },
@@ -223,29 +230,36 @@ namespace MovistarToken.ScheduleTask
                                 {
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
-                                        Key = "Intento",
-                                        Value = item2.Intento.ToString()
+                                        Key = "numeroEnviosToken",
+                                        Value = "1"
                                     }
                                 },
                                  new EnvioEventNotificationRequest.additionalData_
                                 {
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
-                                        Key = "Estado",
+                                        Key = "estadoValidacionToken",
                                         Value = item2.Estado
+                                    }
+                                },
+                                 new EnvioEventNotificationRequest.additionalData_
+                                {
+                                    KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
+                                    {
+                                        Key = "cantidadEnviosToken",
+                                        Value = "1"
                                     }
                                 }
                             }
 
-                          }
                         }
+                    }
 
-                      }
+                        }
 
 
                     });
 
-                   
 
                     EnvioEventNotificationResponse rpta = EnviarTokenServicioEventNotification(request, _accessToken).Result;
 
