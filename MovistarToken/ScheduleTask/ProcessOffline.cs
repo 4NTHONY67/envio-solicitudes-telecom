@@ -23,7 +23,7 @@ namespace MovistarToken.ScheduleTask
         {
 
         }
-        protected override string Schedule => "30 0 * * *";  // a las 00:30:00 todos los dias
+        protected override string Schedule => "5 * * * *";  // a las 00:30:00 todos los dias
 
         public override Task ProcessInScope(IServiceProvider scopeServiceProvider)
         {
@@ -56,7 +56,13 @@ namespace MovistarToken.ScheduleTask
                 foreach (var item2 in query2)
                 {
                     int IdtokenBuscar = item2.IdToken;
-                    
+                    DateTime? fechaValidacion = DateTime.Now;
+
+                    if (item2.FechaValidacion != null)
+                        fechaValidacion = Convert.ToDateTime(item2.FechaValidacion).AddHours(-5);
+                    else
+                        fechaValidacion = item2.FechaValidacion;
+
                     DateTime? fechaEnvioNotificacion = DateTime.Now ;
 
                     var detalletoken = (from x in _context.DetalleToken
@@ -65,8 +71,10 @@ namespace MovistarToken.ScheduleTask
 
                     foreach (var detalle in detalletoken) {
 
-                        fechaEnvioNotificacion = detalle.FechaEnvioNotificacion;
-
+                        if (detalle.FechaEnvioNotificacion != null)
+                            fechaEnvioNotificacion = Convert.ToDateTime(detalle.FechaEnvioNotificacion).AddHours(-5);
+                        else
+                            fechaEnvioNotificacion = detalle.FechaEnvioNotificacion;
                     }
 
                     //var fechaEnvioNotificacionToken = fechaEnvioNotificacion;
@@ -207,7 +215,7 @@ namespace MovistarToken.ScheduleTask
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
                                         Key = "fechaGeneracionToken",
-                                        Value = item2.FechaGeneracion.ToString()
+                                        Value = Convert.ToDateTime(item2.FechaGeneracion).AddHours(-5).ToString()
                                     }
                                 },
                                  new EnvioEventNotificationRequest.additionalData_
@@ -223,7 +231,7 @@ namespace MovistarToken.ScheduleTask
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
                                         Key = "fechaValidacionToken",
-                                        Value = item2.FechaValidacion.ToString()
+                                        Value = fechaValidacion.ToString()
                                     }
                                 },
                                  new EnvioEventNotificationRequest.additionalData_
@@ -305,6 +313,8 @@ namespace MovistarToken.ScheduleTask
 
 
             var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+
+            Console.WriteLine("JSON OFFLINE:" + json.ToString());
 
             var client = new HttpClient();
 

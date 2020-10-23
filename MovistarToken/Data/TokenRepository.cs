@@ -377,6 +377,13 @@ namespace MovistarToken.Data
                 TipoDoc = token.TipoDoc;
             }
 
+            var fechaEnvioNotificacionDesfase = fechaEnvioNotificacion;
+
+            if (fechaEnvioNotificacionDesfase != null)
+            {
+                fechaEnvioNotificacionDesfase = Convert.ToDateTime(fechaEnvioNotificacion).AddHours(-5);
+            }
+
             EnvioEventNotificationRequest request = new EnvioEventNotificationRequest();
             request.eventType = "dinamicNotification";
             request.eventTime = "2020-07-14T02:22:56.979Z";
@@ -497,7 +504,7 @@ namespace MovistarToken.Data
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
                                         Key = "fechaEnvioToken",
-                                        Value = Convert.ToDateTime(fechaEnvioNotificacion).AddHours(-5).ToString()
+                                        Value = fechaEnvioNotificacionDesfase.ToString()
                                     }
                                 },
                                  new EnvioEventNotificationRequest.additionalData_
@@ -607,7 +614,7 @@ namespace MovistarToken.Data
 
             var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
 
-            Console.WriteLine("JSON:" + json.ToString());
+            Console.WriteLine("JSON ONLINE:" + json.ToString());
 
             var client = new HttpClient();
 
