@@ -607,6 +607,8 @@ namespace MovistarToken.Data
 
             var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
 
+            Console.WriteLine("JSON:" + json.ToString());
+
             var client = new HttpClient();
 
             var _accessToken = "";
