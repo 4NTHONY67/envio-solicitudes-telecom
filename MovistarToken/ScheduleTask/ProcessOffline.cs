@@ -206,6 +206,14 @@ namespace MovistarToken.ScheduleTask
                                 {
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
+                                        Key = "type",
+                                        Value = "SMS"
+                                    }
+                                },
+                                 new EnvioEventNotificationRequest.additionalData_
+                                {
+                                    KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
+                                    {
                                         Key = "Token",
                                         Value = item2.NroToken
                                     }
@@ -215,7 +223,7 @@ namespace MovistarToken.ScheduleTask
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
                                         Key = "fechaGeneracionToken",
-                                        Value = Convert.ToDateTime(item2.FechaGeneracion).AddHours(-5).ToString()
+                                        Value = Convert.ToDateTime(item2.FechaGeneracion).AddHours(-5).ToString("yyyy-MM-ddTHH:mm:ss.fffffffK")
                                     }
                                 },
                                  new EnvioEventNotificationRequest.additionalData_
@@ -223,7 +231,7 @@ namespace MovistarToken.ScheduleTask
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
                                         Key = "fechaEnvioToken",
-                                        Value = fechaEnvioNotificacion.ToString()
+                                        Value = ( fechaEnvioNotificacion is null ) ? fechaEnvioNotificacion.ToString(): Convert.ToDateTime(fechaEnvioNotificacion).ToString("yyyy-MM-ddTHH:mm:ss.fffffffK")
                                     }
                                 },
                                  new EnvioEventNotificationRequest.additionalData_
@@ -231,7 +239,7 @@ namespace MovistarToken.ScheduleTask
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
                                         Key = "fechaValidacionToken",
-                                        Value = fechaValidacion.ToString()
+                                        Value = ( fechaValidacion is null ) ? fechaValidacion.ToString(): Convert.ToDateTime(fechaValidacion).ToString("yyyy-MM-ddTHH:mm:ss.fffffffK")
                                     }
                                 },
                                  new EnvioEventNotificationRequest.additionalData_

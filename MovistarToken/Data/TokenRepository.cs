@@ -377,11 +377,11 @@ namespace MovistarToken.Data
                 TipoDoc = token.TipoDoc;
             }
 
-            var fechaEnvioNotificacionDesfase = fechaEnvioNotificacion;
+            var fechaEnvioNotificacionDesfase = fechaEnvioNotificacion.ToString();
 
             if (fechaEnvioNotificacionDesfase != null)
             {
-                fechaEnvioNotificacionDesfase = Convert.ToDateTime(fechaEnvioNotificacion).AddHours(-5);
+                fechaEnvioNotificacionDesfase = Convert.ToDateTime(fechaEnvioNotificacion).AddHours(-5).ToString("yyyy-MM-ddTHH:mm:ss.fffffffK");
             }
 
             EnvioEventNotificationRequest request = new EnvioEventNotificationRequest();
@@ -483,6 +483,14 @@ namespace MovistarToken.Data
                             entityType = "NotificacionSMS",
                             additionalData = new List<EnvioEventNotificationRequest.additionalData_>
                             {
+                                new EnvioEventNotificationRequest.additionalData_
+                                {
+                                    KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
+                                    {
+                                        Key = "type",
+                                        Value = "SMS"
+                                    }
+                                },
                                  new EnvioEventNotificationRequest.additionalData_
                                 {
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
@@ -496,7 +504,7 @@ namespace MovistarToken.Data
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
                                         Key = "fechaGeneracionToken",
-                                        Value = Convert.ToDateTime(token.FechaGeneracion).AddHours(-5).ToString()
+                                        Value = Convert.ToDateTime(token.FechaGeneracion).AddHours(-5).ToString("yyyy-MM-ddTHH:mm:ss.fffffffK")
                                     }
                                 },
                                  new EnvioEventNotificationRequest.additionalData_
@@ -504,7 +512,7 @@ namespace MovistarToken.Data
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
                                         Key = "fechaEnvioToken",
-                                        Value = fechaEnvioNotificacionDesfase.ToString()
+                                        Value = fechaEnvioNotificacionDesfase
                                     }
                                 },
                                  new EnvioEventNotificationRequest.additionalData_
@@ -512,7 +520,7 @@ namespace MovistarToken.Data
                                     KeyValueType = new EnvioEventNotificationRequest.KeyValueType_
                                     {
                                         Key = "fechaValidacionToken",
-                                        Value = DateTime.Now.AddHours(-5).ToString()
+                                        Value = DateTime.Now.AddHours(-5).ToString("yyyy-MM-ddTHH:mm:ss.fffffffK")
                                     }
                                 },
                                  new EnvioEventNotificationRequest.additionalData_
