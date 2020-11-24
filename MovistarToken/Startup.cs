@@ -40,6 +40,7 @@ namespace MovistarToken
             services.AddScoped<ITokenService, TokenService>();
             services.AddSingleton<IHostedService, DepurarToken>();
             services.AddSingleton<IHostedService, ProcessOffline>();
+            services.AddSingleton<IHostedService, TokenRefresh>();
 
             services.AddSwaggerGen(c =>
             {

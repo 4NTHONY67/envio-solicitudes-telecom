@@ -20,24 +20,24 @@ namespace MovistarToken.ScheduleTask
         }
 
 
-        protected override string Schedule => "*/50 * * * *"; // a las 00:01:00 ,el dia 1 de cada mes
+        protected override string Schedule => "*/30 * * * *"; // a las 00:01:00 ,el dia 1 de cada mes
 
         public override Task ProcessInScope(IServiceProvider scopeServiceProvider)
         {
             var _context = scopeServiceProvider.GetRequiredService<TokenContext>();
 
-            var _accessToken = "";
+            var _refreshToken = "";
 
             var tokenAuth = (from x in _context.TokenAuth
                              select x).ToList();
 
             foreach (var item in tokenAuth)
             {
-                _accessToken = item.AccessToken;
+                _refreshToken = item.RefreshToken;
 
             }
 
-            TokenRefreshResponse rpta = ActualizarToken(_accessToken).Result;
+            TokenRefreshResponse rpta = ActualizarToken(_refreshToken).Result;
 
 
             var tokenUpdate = (from x in _context.TokenAuth
@@ -48,7 +48,7 @@ namespace MovistarToken.ScheduleTask
             {
                 dt.AccessToken = rpta.access_token;
                 dt.RefreshToken = rpta.refresh_token;
- 
+
                 _context.Update(dt);
                 _context.SaveChanges();
             }
@@ -60,7 +60,7 @@ namespace MovistarToken.ScheduleTask
 
 
 
-        public async Task<TokenRefreshResponse> ActualizarToken(string  refreshToken)
+        public async Task<TokenRefreshResponse> ActualizarToken(string refreshToken)
         {
             TokenRefreshResponse respuesta;
 
@@ -70,10 +70,11 @@ namespace MovistarToken.ScheduleTask
             dict.Add("client_id", "3d980602-0c5f-4ec7-ac3f-d51ce62ff476");
             dict.Add("grant_type", "refresh_token");
             dict.Add("scope", "scope1");
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Content-Type", "application/x-www-form-urlencoded");
             var req = new HttpRequestMessage(HttpMethod.Post, url) { Content = new FormUrlEncodedContent(dict) };
-            var  response = await client.SendAsync(req);
+            var client = new HttpClient();
+            //client.DefaultRequestHeaders.Add("Content-Type", "application/x-www-form-urlencoded");
+            
+            var response = await client.SendAsync(req);
 
             string response2 = await response.Content.ReadAsStringAsync();
             respuesta = JsonConvert.DeserializeObject<TokenRefreshResponse>(response2);
