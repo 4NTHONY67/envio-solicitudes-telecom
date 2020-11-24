@@ -327,7 +327,7 @@ namespace MovistarToken.ScheduleTask
             var client = new HttpClient();
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
-            client.DefaultRequestHeaders.Add("X-IBM-Client-Id", "88d1769b-521f-49d9-bfc9-35f15c336698");
+            client.DefaultRequestHeaders.Add("X-IBM-Client-Id", "3d980602-0c5f-4ec7-ac3f-d51ce62ff476");
 
             var response = await client.PostAsync(uri, stringContent);
 
