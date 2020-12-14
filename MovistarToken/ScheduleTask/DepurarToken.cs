@@ -17,7 +17,7 @@ namespace MovistarToken.ScheduleTask
         }
 
 
-        protected override string Schedule => "1 0 1 * *"; // a las 00:01:00 ,el dia 1 de cada mes
+        protected override string Schedule => "1 0 1 * *"; // a las 00:01:00 , el dia 1 de cada mes
 
         public override Task ProcessInScope(IServiceProvider scopeServiceProvider)
         {
