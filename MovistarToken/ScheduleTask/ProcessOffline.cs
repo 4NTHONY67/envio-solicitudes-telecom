@@ -105,7 +105,8 @@ namespace MovistarToken.ScheduleTask
 
                     EnvioEventNotificationRequest request = new EnvioEventNotificationRequest();
                     request.eventType = "dinamicNotification";
-                    request.eventTime = "2020-07-14T02:22:56.979Z";
+                    //request.eventTime = "2020-07-14T02:22:56.979Z";
+                    request.eventTime = Convert.ToDateTime(DateTime.Now).AddHours(-5).ToString("yyyy-MM-ddTHH:mm:ss.fffffffK");
                     request.eventId = "-h020c2dbfq0pkqq2p1m";
                     request.eventSource = "GESTOKEN";
                     //request.relatedEntity = new List<EnvioEventNotificationRequest.relatedEntity_>();
