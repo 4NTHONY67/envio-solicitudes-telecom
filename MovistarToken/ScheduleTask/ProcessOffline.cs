@@ -280,15 +280,15 @@ namespace MovistarToken.ScheduleTask
 
                     EnvioEventNotificationResponse rpta = EnviarTokenServicioEventNotification(request, _accessToken).Result;
 
-                   
 
-                    if (rpta.code == "201")
+                    var enviar = "No";
+                    if (rpta.code == "201" || rpta.code =="200")
                     {
-                     
+                        enviar = "Si";
+                    }
 
-                      
-                       
-
+                    if (enviar =="Si" )
+                    {
                         foreach (var dt in detalletoken)
                         {
                             dt.IdToken = item2.IdToken;
@@ -299,6 +299,20 @@ namespace MovistarToken.ScheduleTask
                             dt.OrigenEnvioEvent = "offline";
                             dt.EstadoEvent = true;
                             dt.TokenValidado = item2.NroToken;
+                            _context.Update(dt);
+                            _context.SaveChanges();
+                        }
+                    } else {
+                        foreach (var dt in detalletoken)
+                        {
+                            dt.IdToken = item2.IdToken;
+                            dt.CodigoRespuestaEvent = "0";
+                            dt.MensajeRespuestaEvent = "Error envio event";
+                            dt.NumeroReintentosEvent = 1;
+                            dt.FechaEnvioEvent = DateTime.Now;
+                            dt.OrigenEnvioEvent = "offline";
+                            //dt.EstadoEvent = true;
+                            //dt.TokenValidado = item2.NroToken;
                             _context.Update(dt);
                             _context.SaveChanges();
                         }

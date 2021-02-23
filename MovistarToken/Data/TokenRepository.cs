@@ -559,7 +559,14 @@ namespace MovistarToken.Data
             });
 
             EnvioEventNotificationResponse rpta = EnviarTokenServicioEventNotification(request).Result;
-            if (rpta.code == "201")
+            
+            var enviar = "No";
+            if (rpta.code == "201" || rpta.code =="200")
+            {
+                enviar = "Si";
+            }
+
+            if (enviar =="Si" )
             {
 
                 var query = (from x in _context.Token
@@ -607,7 +614,30 @@ namespace MovistarToken.Data
                 _context.SaveChanges();
             }
     
-            } 
+            } else {
+
+                var detalletokenNoEvent = (from x in _context.DetalleToken
+                                    where x.IdToken == token.IdToken
+                                    select x).ToList();
+
+                var current = DateTime.Now;
+
+                foreach (var dt in detalletokenNoEvent)
+                {
+                    dt.IdToken = token.IdToken;
+                    dt.CodigoRespuestaEvent = "0";
+                    dt.MensajeRespuestaEvent = "Error envio event";
+                    dt.NumeroReintentosEvent = 1;
+                    dt.FechaEnvioEvent = current;
+                    dt.OrigenEnvioEvent = "online";
+                    //dt.EstadoEvent = true;
+                    //dt.TokenValidado = token.NroToken;
+                    //dt.EstadoEvent = "Enviado";
+                    _context.Update(dt);
+                    _context.SaveChanges();
+                }
+
+            }
             /*Si rpta true, se actualizan todos los valores de estadoEnvio en detalleToken a enviado 
             Para todos los usuarios que tengan el mismo celular y el mismo nro documento y asi no se 
             consideren en el proceso offline.*/
