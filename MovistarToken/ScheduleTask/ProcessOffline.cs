@@ -331,7 +331,7 @@ namespace MovistarToken.ScheduleTask
         {
             EnvioEventNotificationResponse respuesta;
 
-            var uri = "https://apisd.telefonica.com.pe/vp-tecnologia/bss/eventnotification/eventNotification/v2/EVENT";
+            var uri = "https://apis.telefonica.com.pe/vp-tecnologia/bss/eventnotification/eventNotification/v2/EVENT";
             var json = JsonConvert.SerializeObject(request);
 
 
@@ -342,7 +342,7 @@ namespace MovistarToken.ScheduleTask
             var client = new HttpClient();
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
-            client.DefaultRequestHeaders.Add("X-IBM-Client-Id", "3d980602-0c5f-4ec7-ac3f-d51ce62ff476");
+            client.DefaultRequestHeaders.Add("X-IBM-Client-Id", "bf76b7fe-d5b5-45e3-8b18-e7c1976be3aa");
 
             var response = await client.PostAsync(uri, stringContent);
 

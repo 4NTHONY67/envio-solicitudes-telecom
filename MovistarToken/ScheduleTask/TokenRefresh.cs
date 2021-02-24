@@ -64,10 +64,10 @@ namespace MovistarToken.ScheduleTask
         {
             TokenRefreshResponse respuesta;
 
-            var url = "https://apisd.telefonica.com.pe/vp-tecnologia/bss/public/oauth2/token";
+            var url = "https://apis.telefonica.com.pe/vp-tecnologia/bss/public/oauth2/token";
             var dict = new Dictionary<string, string>();
             dict.Add("refresh_token", refreshToken);
-            dict.Add("client_id", "3d980602-0c5f-4ec7-ac3f-d51ce62ff476");
+            dict.Add("client_id", "bf76b7fe-d5b5-45e3-8b18-e7c1976be3aa");
             dict.Add("grant_type", "refresh_token");
             dict.Add("scope", "scope1");
             var req = new HttpRequestMessage(HttpMethod.Post, url) { Content = new FormUrlEncodedContent(dict) };
