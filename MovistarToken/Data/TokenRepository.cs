@@ -379,7 +379,7 @@ namespace MovistarToken.Data
 
             var fechaEnvioNotificacionDesfase = fechaEnvioNotificacion.ToString();
 
-            if (fechaEnvioNotificacionDesfase != null)
+            if (fechaEnvioNotificacionDesfase != "")
             {
                 fechaEnvioNotificacionDesfase = Convert.ToDateTime(fechaEnvioNotificacion).AddHours(-5).ToString("yyyy-MM-ddTHH:mm:ss.fffffffK");
             }
