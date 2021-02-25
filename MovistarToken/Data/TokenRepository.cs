@@ -559,14 +559,11 @@ namespace MovistarToken.Data
             });
 
             EnvioEventNotificationResponse rpta = EnviarTokenServicioEventNotification(request).Result;
-            
-            var enviar = "No";
-            if (rpta.code == "201" || rpta.code =="200")
-            {
-                enviar = "Si";
-            }
 
-            if (enviar =="Si" )
+
+            Console.WriteLine(rpta.code);
+
+            if (rpta.code == "201")
             {
 
                 var query = (from x in _context.Token

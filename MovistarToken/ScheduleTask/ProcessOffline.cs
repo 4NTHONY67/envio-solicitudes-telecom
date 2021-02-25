@@ -280,14 +280,9 @@ namespace MovistarToken.ScheduleTask
 
                     EnvioEventNotificationResponse rpta = EnviarTokenServicioEventNotification(request, _accessToken).Result;
 
-
-                    var enviar = "No";
-                    if (rpta.code == "201" || rpta.code =="200")
-                    {
-                        enviar = "Si";
-                    }
-
-                    if (enviar =="Si" )
+                    Console.WriteLine(rpta.code);
+  
+                    if (rpta.code == "201")
                     {
                         foreach (var dt in detalletoken)
                         {
