@@ -40,18 +40,23 @@ namespace MovistarToken.ScheduleTask
             TokenRefreshResponse rpta = ActualizarToken(_refreshToken).Result;
 
 
+
             var tokenUpdate = (from x in _context.TokenAuth
                                select x).ToList();
 
+            if (rpta.refresh_token != "" && rpta.refresh_token != null) {
 
-            foreach (var dt in tokenUpdate)
-            {
-                dt.AccessToken = rpta.access_token;
-                dt.RefreshToken = rpta.refresh_token;
+                foreach (var dt in tokenUpdate)
+                {
+                    dt.AccessToken = rpta.access_token;
+                    dt.RefreshToken = rpta.refresh_token;
 
-                _context.Update(dt);
-                _context.SaveChanges();
+                    _context.Update(dt);
+                    _context.SaveChanges();
+                }
+
             }
+           
 
 
             Console.WriteLine("Token Refresh:" + DateTime.Now.ToString());
