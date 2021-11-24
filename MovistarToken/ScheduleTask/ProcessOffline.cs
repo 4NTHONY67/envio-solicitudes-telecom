@@ -277,7 +277,7 @@ namespace MovistarToken.ScheduleTask
 
                     });
 
-                    //hola
+                    //hola 11
                     EnvioEventNotificationResponse rpta = EnviarTokenServicioEventNotification(request, _accessToken).Result;
 
                     Console.WriteLine(rpta.code);
